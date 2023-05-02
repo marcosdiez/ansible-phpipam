@@ -2,83 +2,94 @@
   become: yes
   tasks:
   - ping:
-#   - rpm_key:
-#       state: present
-#       key: "{{ item }}"
-#     with_items:
-#       - https://rpms.remirepo.net/RPM-GPG-KEY-remi
-#       - https://rpms.remirepo.net/RPM-GPG-KEY-remi2023
-#       - https://rpms.remirepo.net/RPM-GPG-KEY-remi2022
-#       - https://rpms.remirepo.net/RPM-GPG-KEY-remi2021
-#       - https://rpms.remirepo.net/RPM-GPG-KEY-remi2020
-#       - https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8
-#       - https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-9
-#       - https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
-#       - https://repo.mysql.com/RPM-GPG-KEY-mysql
-#   - dnf:
-#       name:
-#       - nginx
-#       - git
-#       - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-#       - https://rpms.remirepo.net/enterprise/remi-release-9.rpm
-#       - https://repo.mysql.com/mysql80-community-release-el9.rpm
-#       # - php74-build
-#       # - php-cli
-#       # - php-fpm
-#       # - mysql-server
-#       state: latest
+  # - rpm_key:
+  #     state: present
+  #     key: "{{ item }}"
+  #   with_items:
+  #     - https://rpms.remirepo.net/RPM-GPG-KEY-remi
+  #     - https://rpms.remirepo.net/RPM-GPG-KEY-remi2023
+  #     - https://rpms.remirepo.net/RPM-GPG-KEY-remi2022
+  #     - https://rpms.remirepo.net/RPM-GPG-KEY-remi2021
+  #     - https://rpms.remirepo.net/RPM-GPG-KEY-remi2020
+  #     - https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8
+  #     - https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-9
+  #     - https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+  #     - https://repo.mysql.com/RPM-GPG-KEY-mysql
+  # - dnf:
+  #     name:
+  #     - nginx
+  #     - git
+  #     - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+  #     - https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+  #     - https://repo.mysql.com/mysql80-community-release-el9.rpm
+  #     # - php74-build
+  #     # - php-cli
+  #     # - php-fpm
+  #     # - mysql-server
+  #     state: latest
 
 
 
-  - dnf:
-      name:
-      - mysql-community-server
-      - mysql-community-common
-      - mysql-community-client
-      # - mysql-community-lib
+  # - dnf:
+  #     name:
+  #     - mysql-community-server
+  #     - mysql-community-common
+  #     - mysql-community-client
+  #     # - mysql-community-lib
 
-#   - dnf:
-#       name:
-#       - php74-build
-#       - php74-php
-#       - php74-php-common
-#       - php74-php-cli
-#       - php74-php-fpm
-#       - php74-php-pdo
-#       - php74-php-ldap
-#       - php74-php-pecl-crypto
-#       - php74-php-pecl-mcrypt
-#       - php74-php-pecl-scrypt
-#       - php74-php-pecl-xxtea
-#       - php74-php-sodium
-#       - php74-php-xml
-#       - php74-php-json
-#       - php74-php-pecl-json-post
-#       - php74-php-pecl-jsonpath
-#       - php74-php-pecl-simdjson
-#       - php74-php-mbstring
-#       - php74-php-pear
-#       - php74-php-mysqlnd
-#       - php74-php-pecl-mysql
-#       - https://repo.mysql.com/mysql80-community-release-el9.rpm
+  # - dnf:
+  #     name:
+  #     - php74-build
+  #     - php74-php
+  #     - php74-php-common
+  #     - php74-php-cli
+  #     - php74-php-fpm
+  #     - php74-php-pdo
+  #     - php74-php-ldap
+  #     - php74-php-pecl-crypto
+  #     - php74-php-pecl-mcrypt
+  #     - php74-php-pecl-scrypt
+  #     - php74-php-pecl-xxtea
+  #     - php74-php-sodium
+  #     - php74-php-xml
+  #     - php74-php-json
+  #     - php74-php-pecl-json-post
+  #     - php74-php-pecl-jsonpath
+  #     - php74-php-pecl-simdjson
+  #     - php74-php-mbstring
+  #     - php74-php-pear
+  #     - php74-php-mysqlnd
+  #     - php74-php-pecl-mysql
+  #     - https://repo.mysql.com/mysql80-community-release-el9.rpm
 
-#       update_cache: true
-#       state: latest
+  #     update_cache: true
+  #     state: latest
 
-#   - ansible.builtin.file:
-#       path: /opt/phpipam
-#       state: directory
-#       mode: '0755'
+  # - ansible.builtin.file:
+  #     path: /opt/phpipam
+  #     state: directory
+  #     mode: '0755'
 
-  - ansible.builtin.git:
-      repo: 'https://github.com/phpipam/phpipam.git'
-      dest: /opt/phpipam
-      clone: yes
-      update: yes
-      accept_hostkey: yes
-      # accept_newhostkey: yes
-      recursive: true
-      version: origin/1.5
+  # - ansible.builtin.git:
+  #     repo: 'https://github.com/phpipam/phpipam.git'
+  #     dest: /opt/phpipam
+  #     clone: yes
+  #     update: yes
+  #     accept_hostkey: yes
+  #     # accept_newhostkey: yes
+  #     recursive: true
+  #     version: origin/1.5
+
+
+  - systemd:
+      name: mysqld
+      state: started
+      enabled: True
+
+  - systemd:
+      name: nginx
+      state: started
+      enabled: True
 
 #     pdo, pdo_mysql : Adds support for mysql connections
 #     session : Adds persistent session support
