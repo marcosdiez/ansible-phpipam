@@ -1,4 +1,4 @@
-# : ansible-galaxy collection install community.mysql.
+# : ansible-galaxy collection install community.mysql
 
 - hosts: all
   become: yes
@@ -8,7 +8,6 @@
   tasks:
   - ping:
 
-
   - ansible.builtin.file:
       path: "/var/cache/dnf"
       state: directory
@@ -16,6 +15,7 @@
       owner: root
       group: root
 
+  # - ansible.posix.synchronize:
   - ansible.builtin.copy:
       src: packages/dnf/    # note the '/' <-- !!!
       dest: /var/cache/dnf/
@@ -36,8 +36,6 @@
       owner: root
       group: root
       mode: '0644'
-
-
 
   - dnf:
       name:
@@ -94,10 +92,10 @@
       enabled: True
 
 
-  ansible.builtin.unarchive:
-    src: /root/phpipam.tar.xz
-    dest: /var/www/html/
-    remote_src: yes
+  - ansible.builtin.unarchive:
+      src: /root/phpipam.tar.xz
+      dest: /var/www/html/
+      remote_src: yes
 
   # - ansible.builtin.git:
   #     repo: 'https://github.com/phpipam/phpipam.git'
