@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<repomd xmlns="http://linux.duke.edu/metadata/repo" xmlns:rpm="http://linux.duke.edu/metadata/rpm">
+  <revision>1680088296</revision>
+  <data type="primary">
+    <checksum type="sha256">5b46f470a50f11f11e4beeee1c87814285019289605a638a55fbcf113235b3e1</checksum>
+    <open-checksum type="sha256">0fb8dde5dce988f86ae5ce613376e0ab96939256d64b158e24b4297f0ef11a3b</open-checksum>
+    <location href="repodata/5b46f470a50f11f11e4beeee1c87814285019289605a638a55fbcf113235b3e1-primary.xml.gz"/>
+    <timestamp>1680088294</timestamp>
+    <size>1869</size>
+    <open-size>14743</open-size>
+  </data>
+  <data type="filelists">
+    <checksum type="sha256">2e3ece63eb91d6b75ab68a105b8f1805b023e5ff5428908bf094fd728ba9c7f1</checksum>
+    <open-checksum type="sha256">53fb6dce1c02c343b5ed4d8cd83af2cfa4d0bbe5c6be778f7957998577c76b75</open-checksum>
+    <location href="repodata/2e3ece63eb91d6b75ab68a105b8f1805b023e5ff5428908bf094fd728ba9c7f1-filelists.xml.gz"/>
+    <timestamp>1680088294</timestamp>
+    <size>880</size>
+    <open-size>6572</open-size>
+  </data>
+  <data type="other">
+    <checksum type="sha256">60ed277d56cd65b72634aa2783f837436a431f90322bd94f397b70a686d13159</checksum>
+    <open-checksum type="sha256">9b261973424d1411d2b79b3d6c46a48a46d25eaeaecd3172e505bec787ab0c77</open-checksum>
+    <location href="repodata/60ed277d56cd65b72634aa2783f837436a431f90322bd94f397b70a686d13159-other.xml.gz"/>
+    <timestamp>1680088294</timestamp>
+    <size>1629</size>
+    <open-size>11687</open-size>
+  </data>
+  <data type="updateinfo">
+    <checksum type="sha256">c0cace4d6bd977ad29096c46467682b30b7ef65aff60fe7f7238096f9003d898</checksum>
+    <open-checksum type="sha256">2d438c5e29ec0e2eb9509db795b1c479f3c25a7e1e5537be4b5814f62cb7e81e</open-checksum>
+    <location href="repodata/c0cace4d6bd977ad29096c46467682b30b7ef65aff60fe7f7238096f9003d898-updateinfo.xml.gz"/>
+    <timestamp>1680088294</timestamp>
+    <size>71</size>
+    <open-size>59</open-size>
+  </data>
+</repomd>
