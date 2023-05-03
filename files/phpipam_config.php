@@ -4,9 +4,9 @@
  * database connection details
  ******************************/
 $db['host'] = '127.0.0.1';
-$db['user'] = 'phpipam';
-$db['pass'] = 'f8aABrhADAwql@has8hcsa@sd';
-$db['name'] = 'phpipam';
+$db['user'] = 'phpipamuser';
+$db['pass'] = '{{ mysql_phpipam_password }}';
+$db['name'] = 'phpipamdb';
 $db['port'] = 3306;
 
 /**
@@ -179,3 +179,4 @@ $config['footer_message']         = "";                     // Custom message in
  * default: '/usr/bin/mysqldump'
  */
 // $mysqldump_cli_binary = '/usr/bin/mysqldump';
+$allow_untested_php_versions=true;

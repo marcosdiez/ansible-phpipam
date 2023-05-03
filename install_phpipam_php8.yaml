@@ -1,7 +1,156 @@
+# : ansible-galaxy collection install community.mysql.
+
 - hosts: all
   become: yes
+  vars_files:
+    - ./ansible_variables.yaml
+
   tasks:
   - ping:
+
+  - ansible.builtin.shell:  setenforce 0
+
+  - ansible.posix.selinux:
+      state: disabled
+
+
+  - ansible.builtin.copy:
+      src: ./files/etc_environment
+      dest: /etc/environment
+      owner: root
+      group: root
+      mode: '0644'
+
+  - dnf:
+      name:
+      # - https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+      # - https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+      - net-tools
+      - telnet
+      - nginx
+      - git
+      - nano
+      - mariadb-server
+      - python3-PyMySQL.noarch # for ansible to talk to mysql
+      - php
+      - php-cli
+      - php-gd
+      - php-fpm
+      - php-common
+      - php-ldap
+      - php-pdo
+      - php-mysqlnd
+      - php-pear
+      - php-snmp
+      - php-xml
+      - php-mbstring
+      # - php-mcrypt
+      - php-gmp
+
+  - ansible.builtin.copy:
+      src: ./files/php.ini
+      dest: /etc/php.ini
+      owner: root
+      group: root
+      mode: '0644'
+
+  - systemd:
+      name: "php-fpm"
+      state: restarted
+      enabled: True
+
+  - ansible.builtin.copy:
+      src: ./files/nginx_phpipam.conf
+      dest: /etc/nginx/conf.d/nginx_phpipam.conf
+      owner: root
+      group: root
+      mode: '0644'
+
+  - systemd:
+      name: nginx
+      state: restarted
+      enabled: True
+
+  - systemd:
+      name: mariadb
+      state: started
+      enabled: True
+
+  - ansible.builtin.git:
+      repo: 'https://github.com/phpipam/phpipam.git'
+      dest:  /var/www/html/
+      clone: yes
+      update: yes
+      accept_hostkey: yes
+      # accept_newhostkey: yes
+      recursive: true
+      version: origin/1.5
+
+  - ansible.builtin.file:
+      path: "/var/www/html/{{ item }}"
+      state: directory
+      mode: '0777'
+    with_items:
+      - app/admin/import-export/upload/
+      - app/subnets/import-subnet/upload/
+      - css/images/logo/
+
+  - name: MYSQL - Change root user password. Ignore if it fails
+    mysql_user:
+      # here we set a root password
+      # only works on the firs time
+      # will fail in the future but we don't care
+      name: root
+      password: "{{ mysql_root_password }}"
+      # check_implicit_admin: true
+      # login_user: mysql
+      # login_unix_socket: /var/run/mysqld/mysqld.sock
+      login_unix_socket: /var/lib/mysql/mysql.sock
+    ignore_errors: true
+
+
+
+  # this is created by the UI on the first launch for us
+
+
+  # - community.mysql.mysql_db:
+  #     name: phpipamdb
+  #     state: present
+
+  #     login_host: 127.0.0.1
+  #     login_user: root
+  #     login_password: "{{ mysql_root_password }}"
+
+  # - mysql_user:
+  #     name: phpipamuser
+  #     password: "{{ mysql_phpipam_password }}"
+  #     host: '%'
+  #     priv:
+  #       'phpipamdb.*': 'ALL,GRANT'
+
+  #     login_host: 127.0.0.1
+  #     login_user: root
+  #     login_password: "{{ mysql_root_password }}"
+
+#  GRANT ALL on phpipamdb.* to phpipamdb@localhost identified by ‘phpipamadmin’;
+  - ansible.builtin.template:
+      src: ./files/phpipam_config.php
+      dest: /var/www/html/config.php
+      owner: root
+      group: apache
+      mode: '0640'
+
+
+
+
+
+
+
+      # - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+      # - https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+      # - https://repo.mysql.com/mysql80-community-release-el9.rpm
+      # - php74-build
+
   # - rpm_key:
   #     state: present
   #     key: "{{ item }}"
@@ -19,6 +168,7 @@
   #     name:
   #     - nginx
   #     - git
+  #     - nano
   #     - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
   #     - https://rpms.remirepo.net/enterprise/remi-release-9.rpm
   #     - https://repo.mysql.com/mysql80-community-release-el9.rpm
@@ -70,26 +220,19 @@
   #     state: directory
   #     mode: '0755'
 
-  # - ansible.builtin.git:
-  #     repo: 'https://github.com/phpipam/phpipam.git'
-  #     dest: /opt/phpipam
-  #     clone: yes
-  #     update: yes
-  #     accept_hostkey: yes
-  #     # accept_newhostkey: yes
-  #     recursive: true
-  #     version: origin/1.5
 
 
-  - systemd:
-      name: mysqld
-      state: started
-      enabled: True
+  # - systemd:
+  #     name: "{{ item }}"
+  #     state: started
+  #     enabled: True
+  #   with_items:
+  #     - mysqld
+  #     - nginx
+  #     - php74-php-fpm
 
-  - systemd:
-      name: nginx
-      state: started
-      enabled: True
+
+
 
 #     pdo, pdo_mysql : Adds support for mysql connections
 #     session : Adds persistent session support
