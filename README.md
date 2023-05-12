@@ -1,52 +1,14 @@
 # ansible-phpipam
 
+Instructions:
 
-sudo dnf install --downloadonly  --downloaddir . mariadb-server
-
-
-sudo dnf install *.rpm --disablerepo=*
-
-sudo dnf install *.rpm --disablerepo=* --skip-broken
-
-
-sudo dnf install --downloadonly  --downloaddir . mariadb-server
-sudo dnf install --downloadonly  --downloaddir . https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-sudo dnf install --downloadonly  --downloaddir . mariadb-server
-sudo dnf install --downloadonly  --downloaddir . mariadb-server
-
-
-
-sudo repotrack --destdir . mariadb-server
-sudo repotrack --destdir . https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-sudo dnf install -y epel-release-latest-9.noarch.rpm
-sudo repotrack --destdir . https://rpms.remirepo.net/enterprise/remi-release-9.rpm
-sudo dnf install -y remi-release-9.rpm
-sudo dnf module list php
-sudo dnf module enable php:remi-7.4
-
-sudo repotrack --destdir . php php-cli php-common net-tools telnet nano python3-PyMySQL.noarch  nginx
-
-
-du --assumeyes
-
-
-sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm --assumeyes
-sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm --assumeyes
-sudo dnf module list php
-sudo dnf module enable php:remi-7.4
-
-sudo dnf install --downloadonly  --downloaddir .  php php-cli php-common net-tools telnet nano python3-PyMySQL.noarch  nginx
-
-
-# sudo repotrack --destdir . https://rpms.remirepo.net/enterprise/remi-release-9.rpm
-
-# sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-# sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-
-#    18  sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm
-#    19  sudo dnf module list php
-#    20  sudo dnf module enable php:remi-7.4
-#    21  php -v
-#    22  sudo dnf install php php-cli php-common
-#    23  php -v
-#    24  sudo systemctl stop firewalld
+1. copy `ansible_variables.sample.yaml` to `ansible_variables.yaml` and put a *REAL* password
+1. edit [inventory.ini](inventory.ini) and add the connection string for your server(s)
+1. type:
+    * `ansible-galaxy collection install community.mysql` # only once, in your host server
+    * `ansible-playbook install_phpipam_php74_offline_v2.yaml`
+1. go to http://IP_OF_YOUR_SERVER
+1. click on `automatic install`
+1. for the mysql user, put `root`
+1. for the mysql password, put the one you have on `ansible_variables.yaml`
+1. done
